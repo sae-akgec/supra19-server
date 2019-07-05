@@ -1,8 +1,12 @@
+sudo: required
 language:
   node_js
 
 node_js:
   - 10
+
+script:
+  'true'
 
 deploy:
   provider: heroku
