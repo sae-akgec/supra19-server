@@ -11,7 +11,7 @@ router.use("/auth", auth);
 router.use("/admin", admin);
 
 router.get('*', (req, res, next)=>{
-    res.statusCode(404);
+    res.status(404);
     res.json({"Api":"Invalid Enpoint"});
 });
 module.exports = router;

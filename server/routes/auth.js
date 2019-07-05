@@ -17,10 +17,10 @@ router.post("/register", (req, res, next)=>{
     User.addUser(newUser, (err, user)=>{
         if(err){
             
-            res.statusCode(400);
+            res.status(400);
             res.json({success:false, msg:"Failed to Register"});
         }else{
-            res.statusCode(200);
+            res.status(200);
             res.json({success: true, msg:"Registerred Successfully"})
         }
     })
@@ -35,12 +35,12 @@ router.post("/login", (req, res, next)=>{
         if(user){
             User.comparePassword(password, user.password, (status)=>{
                 if(!status){
-                    res.statusCode(400);
+                    res.status(400);
                     res.json({success: false, msg: `Password didn't match`})
                 } else{
 
                     const token = jwt.sign({"sub": user['_id']}, config.secret, { expiresIn: 604800});
-                    res.statusCode(200);
+                    res.status(200);
                     res.json({
                         success: true,
                         token : 'Bearer ' + token
@@ -48,7 +48,7 @@ router.post("/login", (req, res, next)=>{
                 }
             })
         }else{
-            res.statusCode(400);
+            res.status(400);
             res.json({success: false, msg: `User Dosen't Exist with email ${email}`})
         }
     })

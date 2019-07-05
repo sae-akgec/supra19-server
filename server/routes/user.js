@@ -7,7 +7,7 @@ router.get('/me', passport.authenticate('jwt', { session: false }), (req, res, n
     User.getUserById(req.user['_id'], (err, user)=>{
         if (err) {
             res.json({"error":`User with ${id} not found`});
-            req.statusCode(400);
+            req.status(400);
         } else {
             res.json(user);
         }
