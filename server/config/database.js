@@ -1,4 +1,4 @@
 module.exports = {
-    database : 'mongodb://localhost:27017/reshu',
+    database : "mongodb+srv://JAIN:rishabh74143395@cluster0-wazyz.gcp.mongodb.net/test?retryWrites=true",
     secret : 't2blive'
     };
