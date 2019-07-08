@@ -5,6 +5,7 @@ const config = require('../config/database');
 const jwt = require('jsonwebtoken');
 
 
+
 router.post("/register", (req, res, next)=>{
     let newUser = User({
         email: req.body.email,
@@ -20,7 +21,7 @@ router.post("/register", (req, res, next)=>{
             res.status(400);
             res.json({success:false, msg:"Failed to Register"});
         }else{
-            res.status(200);
+            res.status(201);
             res.json({success: true, msg:"Registerred Successfully"})
         }
     })
