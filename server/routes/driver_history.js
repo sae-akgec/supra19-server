@@ -17,6 +17,7 @@ router.get('/', (req, res, next)=>{
 router.post('/', (req, res, next)=>{
     let newDriverhistory = new  Driverhistory({
         driver_id:req.body.driver_id,
+        car_id :req.body.car_id,
         start_lat:req.body.start_lat,
         start_long:req.body.start_long,
         end_lat:req.body.end_lat,
@@ -36,10 +37,4 @@ router.post('/', (req, res, next)=>{
     })
 
 });
-
-
-
-
-
-
 module.exports = router;

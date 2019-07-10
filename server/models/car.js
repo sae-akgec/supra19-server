@@ -1,49 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const driverhistorySchema = mongoose.Schema ({
-   
-    ride_coordinates: {
-        type: String,
-        required: true, 
-        unique: true
+const driverIdSchema = mongoose.Schema({
+    driverId:{
+        type:String
     },
-    avg_speed:{
-        type:String,
-        require: true
-    },
-    start_time:{
-        type:String,
-        require: true
-    },
-   end_time:{
-        type:String,
-        require: true
-    },
-    driverhistory:{
-        type:String,
-        require: true
+    isAdmin:{
+        type:Boolean
     }
 });
-const gfSchema = mongoose.Schema({
-    gf:{
-        type: Boolean,
-        require: true
-    },
-    gf_limit:{
-        type:String,
-        require: true
-    },
-    gf_lat:{
-        type:String,
-        require: true
-    },
-    gf_lon:{
-        type:String,
-        require: true
-    }
-    });
-
-
 const CarSchema = mongoose.Schema({
     image: {
         type: String
@@ -61,12 +25,26 @@ const CarSchema = mongoose.Schema({
         type:String,
         require: true
     },
-    admin:{
-        type:String,
-        require: true
+    geoFencing : {
+        gf:{
+            type: Boolean,
+            require: true
+        },
+        gf_limit:{
+            type:String,
+            require: true
+        },
+        gf_lat:{
+            type:String,
+            require: true
+        },
+    
+        gf_lon:{
+            type:String,
+            require: true
+        }
     },
-    geoFencing : [gfSchema],
-    driverHistory : [driverhistorySchema]
+    driverId:[driverIdSchema],
    });
 
 

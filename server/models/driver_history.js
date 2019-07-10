@@ -2,31 +2,48 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
 const driverhistorySchema = mongoose.Schema ({
-        id: {
-            type: String,
-            required: true
-        },
-        ride_coordinates: {
-            type: String,
-            required: true, 
-            unique: true
-        },
-        avg_speed:{
-            type:String,
-            require: true
-        },
-        start_time:{
-            type:String,
-            require: true
-        },
-       end_time:{
-            type:String,
-            require: true
-        },
-        driverhistory:{
-            type:String,
-            require: true
-        }
+    driver_id:{
+        type:String,
+        require: true
+    },
+    car_id : {
+        type:String,
+        require:true
+    },
+    
+    start_lat :{
+        type:String,
+        require: true
+    },
+    
+    start_long:{
+        type:String,
+        require: true
+    },
+    
+    end_lat:{
+        type:String,
+        require: true
+    },
+
+    end_long:{
+        type:String,
+        require: true
+    },
+   
+    start_time:{
+        type:String,
+        require: true
+    },
+   
+    end_time :{
+        type:String,
+        require: true
+    },
+    isAdmin : {
+        type:Boolean
+    }
+   
     }
 )
 module.exports = DriverHistory = mongoose.model('driver_history',driverhistorySchema);
