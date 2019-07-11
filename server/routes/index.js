@@ -14,8 +14,6 @@ router.use("/car", car);
 router.use("/auth", auth);
 router.use("/admin", admin);
 router.use("/driver_history", Driverhistory);
-router.use("/driver_car", Car)
-;
 
 router.get('*', (req, res, next)=>{
     res.status(404);
