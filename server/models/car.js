@@ -1,74 +1,87 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+
 const driverIdSchema = mongoose.Schema({
-    driverId:{
-        type:String
+    driver_id: {
+        type: String,
+        required: true
     },
-    isAdmin:{
-        type:Boolean
+    is_admin: {
+        type: Boolean,
+        required: true
     }
 });
-const CarSchema = mongoose.Schema({
+
+const carStatusSchema = mongoose.Schema({
+  gf: {
+      type: Boolean
+  },
+  gf_limit: {
+      type: String
+  },
+  gf_lat: {
+      type: String
+  },
+  gf_lon: {
+      type: String
+  },
+  current_lat: {
+    type: String
+  },
+  current_lon: {
+    type: String
+  },
+  status: {
+    type: Boolean
+  },
+  is_danger:{
+    type: Boolean
+  }
+});
+
+const carSchema = mongoose.Schema({
     image: {
         type: String
     },
-    number:{
-        type:String,
+    car_no: {
+        type: String,
         require: true
     },
-    
-    speed:{
-        type:String,
+    speed: {
+        type: String,
         require: true
     },
-    speed_limit:{
-        type:String,
+    speed_limit: {
+        type: String,
         require: true
     },
-    geoFencing : {
-        gf:{
-            type: Boolean,
-            require: true
-        },
-        gf_limit:{
-            type:String,
-            require: true
-        },
-        gf_lat:{
-            type:String,
-            require: true
-        },
-    
-        gf_lon:{
-            type:String,
-            require: true
-        }
+    car_status: {
+      type: carStatusSchema
     },
-    driverId:[driverIdSchema],
-   });
 
-   
+    drivers: [{
+        type: driverIdSchema
+    }]
+});
 
 
-const Car = module.exports = mongoose.model('car',CarSchema);
+const Car = module.exports = mongoose.model('cars', carSchema);
 
-//Create 
-module.exports.addCar = function(newCar, callback){
+//Create
+module.exports.addCar = function (newCar, callback) {
     newCar.save(callback);
- }
- 
- 
- //Read
- module.exports.getCar = function (callback) {
-     Car.find({},callback);
- }
- 
- module.exports.getCarById = function (id, callback) {
-     Car.findById(id, callback);
- }
- 
- 
- //Delete
- module.exports.deleteRole = function(id, callback){
-     Car.findByIdAndRemove(rollNo,callback);
- }
+}
+
+
+//Read
+module.exports.getCar = function (callback) {
+    Car.find({}, callback);
+}
+
+module.exports.getCarById = function (id, callback) {
+    Car.findById(id, callback);
+}
+
+//Delete
+module.exports.deleteCar = function (id, callback) {
+    Car.findByIdAndRemove(id, callback);
+}

@@ -13,8 +13,8 @@ router.get('/', (req, res, next)=>{
     })
 });
 
-
 router.post('/', (req, res, next)=>{
+
     let newRole =new  Role({
         name: req.body.name,
     });
@@ -29,7 +29,5 @@ router.post('/', (req, res, next)=>{
     })
 
 });
-
-
 
 module.exports = router;

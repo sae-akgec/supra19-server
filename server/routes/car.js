@@ -12,6 +12,7 @@ router.get('/', (req, res, next)=>{
         }
     })
 });
+
 router.get('/:id', (req, res, next)=>{
     let id = req.params.id
     Car.getCarById(id,(err, car)=>{
@@ -27,22 +28,21 @@ router.get('/:id', (req, res, next)=>{
 router.post('/', (req, res, next)=>{
     let newCar = new  Car({
         image:req.body.image,
-        number:req.body.number,
+        car_no:req.body.car_no,
         speed:req.body.speed,
         speed_limit:req.body.speed_limit,
-        geoFencing:req.body.geo_fencing,
-        driverId:req.body.driverId,
+        car_status:req.body.car_status,
+        drivers:req.body.driverId,
        });
-    console.log(newCar);
-     Car.addCar(newCar, (err, car)=>{
+     Car.addCar(newCar, (err, saveCar)=>{
         if (err) {
             res.json({success:false, msg:"Failed to add the Car"});
         } else {
-            res.json({success:true, msg:"Car added"});                                                                                     XMLDocument
+            res.json(saveCar);                                                                                
         }
-    })
-
+    });
 });
+
 router.post('/driver/:id', (req, res, next)=>{
     let id = req.params.id
     Car.getCarById(id,(err, car)=>{
@@ -50,7 +50,7 @@ router.post('/driver/:id', (req, res, next)=>{
             res.json({"error":"error"});
             console.log(err)
         } else {
-            var car_driver = {
+            let car_driver = {
                 "driverId": req.body.driver_id,
                 "isAdmin": req.body.is_admin
             }
@@ -58,7 +58,7 @@ router.post('/driver/:id', (req, res, next)=>{
             car.driverId.push(car_driver)
             Car.addCar(car, (err, upatedCar) =>{
                 if(err){
-                    res.json({"error":"error"}); 
+                    res.json({"error":"error"});
                 } else{
                     res.json(upatedCar);
                 }
@@ -67,12 +67,5 @@ router.post('/driver/:id', (req, res, next)=>{
         }
     })
 });
-
-
-
-
-  
-
-
 
 module.exports = router;
