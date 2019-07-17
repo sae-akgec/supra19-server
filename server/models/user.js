@@ -8,13 +8,13 @@ const userSchema = mongoose.Schema({
     },
     email: {
         type: String,
-        required: true, 
+        required: true,
         unique: true
     },
-    lastName:{    
+    lastName:{
         type:String,
         require: false
-    }, 
+    },
     password:{
         type:String,
         require: true
@@ -28,7 +28,7 @@ const userSchema = mongoose.Schema({
 
 const User = module.exports = mongoose.model('users', userSchema);
 
-//Create 
+//Create
 module.exports.addUser = function(newUser, callback){
     bcrypt.genSalt(10,(err,salt)=>{
         bcrypt.hash(newUser.password, salt, (err, hash)=>{
@@ -57,7 +57,7 @@ module.exports.getUserById = function (id, callback) {
 
 //Delete
 module.exports.deleteUser = function(id, callback){
-    User.findByIdAndRemove(rollNo,callback);
+    User.findByIdAndRemove(id, callback);
 }
 
 module.exports.comparePassword = function(candidatePassword, hash, callback){

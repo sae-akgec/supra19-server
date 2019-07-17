@@ -13,8 +13,8 @@ router.get('/', (req, res, next)=>{
     })
 });
 
-
 router.post('/', (req, res, next)=>{
+
     let newRole =new  Role({
         name: req.body.name,
     });
@@ -24,12 +24,10 @@ router.post('/', (req, res, next)=>{
             res.json({success:false, msg:"Failed to add the Role"});
             console.log(err);
         } else {
-            res.json({success:true, msg:"Role added"});                                                                                     XMLDocument
+            res.json({success:true, msg:"Role added"});                                                                                   
         }
     })
 
 });
-
-
 
 module.exports = router;

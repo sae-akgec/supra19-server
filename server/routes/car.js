@@ -5,21 +5,41 @@ const Car = require('../models/car');
 router.get('/', (req, res, next)=>{
     Car.getCar((err, car)=>{
         if (err) {
-            res.json({"error":"error"});
+            res.status = 400;
+            res.json({"error":"Can't get cars"});
             console.log(err)
         } else {
             res.json(car);
         }
     })
 });
+
 router.get('/:id', (req, res, next)=>{
     let id = req.params.id
     Car.getCarById(id,(err, car)=>{
         if (err) {
-            res.json({"error":"error"});
-            console.log(err)
+            res.status = 404
+            res.json({"error":"Car with id dosen't exist"});
         } else {
             res.json(car);
+        }
+    })
+});
+
+// Get car by car_no
+router.get('/number/:id', (req, res, next)=>{
+    let carNo = req.params.id
+    Car.getCarByCarNo(carNo,(err, cars)=>{
+        if (err) {
+            res.status = 400
+            res.json({"error":"Encountred an error"});
+        } else {
+          if(cars[0])
+            res.json(cars[0]);
+          else {
+            res.status = 404
+            res.json({"error":"Car with carNo dosen't exist"});
+          }
         }
     })
 });
@@ -27,30 +47,30 @@ router.get('/:id', (req, res, next)=>{
 router.post('/', (req, res, next)=>{
     let newCar = new  Car({
         image:req.body.image,
-        number:req.body.number,
+        car_no:req.body.car_no,
         speed:req.body.speed,
         speed_limit:req.body.speed_limit,
-        geoFencing:req.body.geo_fencing,
-        driverId:req.body.driverId,
+        car_status:req.body.car_status,
+        drivers:req.body.driverId,
        });
-    console.log(newCar);
-     Car.addCar(newCar, (err, car)=>{
+     Car.addCar(newCar, (err, saveCar)=>{
         if (err) {
-            res.json({success:false, msg:"Failed to add the Car"});
+            res.json({success:false, msg:err.errmsg || "Failed to add please try again"});
         } else {
-            res.json({success:true, msg:"Car added"});                                                                                     XMLDocument
+            res.json(saveCar);
         }
-    })
-
+    });
 });
-router.post('/driver/:id', (req, res, next)=>{
+
+// Add Driver
+router.post('/:id/driver', (req, res, next)=>{
     let id = req.params.id
     Car.getCarById(id,(err, car)=>{
         if (err) {
             res.json({"error":"error"});
             console.log(err)
         } else {
-            var car_driver = {
+            let car_driver = {
                 "driverId": req.body.driver_id,
                 "isAdmin": req.body.is_admin
             }
@@ -58,7 +78,55 @@ router.post('/driver/:id', (req, res, next)=>{
             car.driverId.push(car_driver)
             Car.addCar(car, (err, upatedCar) =>{
                 if(err){
-                    res.json({"error":"error"}); 
+                    res.json({"error":"error"});
+                } else{
+                    res.json(upatedCar);
+                }
+            })
+        }
+    })
+});
+
+// Update car status
+router.post('/:id/status', (req, res, next)=>{
+    let id = req.params.id
+    Car.getCarById(id,(err, car)=>{
+        if (err) {
+            res.json({"error":`No car exist id: ${id}`});
+        } else {
+
+            car.car_status.current_lat = req.body.current_lat;
+            car.car_status.current_lon = req.body.current_lon;
+            car.car_status.status = req.body.status;
+            car.car_status.is_danger = req.body.is_danger;
+
+            Car.addCar(car, (err, upatedCar) =>{
+                if(err){
+                    console.log(err);
+                    res.json({"error":"Can't Update car"});
+                } else{
+                    res.json(upatedCar);
+                }
+            });
+        }
+    })
+});
+
+// Update car status
+router.post('/:id/geofencing', (req, res, next)=>{
+    let id = req.params.id
+    Car.getCarById(id,(err, car)=>{
+        if (err) {
+            res.json({"error":`No car exist id: ${id}`});
+        } else {
+            car.car_status.gf = req.body.gf || car.car_status.gf;
+            car.car_status.gf_limit = req.body.gf_limit || car.car_status.gf_limit;
+            car.car_status.gf_lat = req.body.gf_lat || car.car_status.gf_lat;
+            car.car_status.gf_lon = req.body.gf_lon || car.car_status.gf_lon;
+
+            Car.addCar(car, (err, upatedCar) =>{
+                if(err){
+                    res.json({"error":"Can't update car"});
                 } else{
                     res.json(upatedCar);
                 }
@@ -67,12 +135,4 @@ router.post('/driver/:id', (req, res, next)=>{
         }
     })
 });
-
-
-
-
-  
-
-
-
 module.exports = router;
