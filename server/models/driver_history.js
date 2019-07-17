@@ -6,57 +6,63 @@ const driverhistorySchema = mongoose.Schema ({
         type:String,
         require: true
     },
+    driver_name:{
+        type:String,
+        require: true
+    },
     car_id : {
         type:String,
         require:true
     },
-    
     start_lat :{
         type:String,
         require: true
     },
-    
-    start_long:{
+    start_lng:{
         type:String,
         require: true
     },
-    
     end_lat:{
         type:String,
         require: true
     },
-
-    end_long:{
+    end_lng:{
         type:String,
         require: true
     },
-   
     start_time:{
         type:String,
         require: true
     },
-   
     end_time :{
-        type:String,
-        require: true
-    },
-    isAdmin : {
-        type:Boolean
-    }
-   
-    }
+        type:String
+    }}
 )
 module.exports = DriverHistory = mongoose.model('driver_history',driverhistorySchema);
-//Read
-module.exports.getdriverhistory = function (callback) {
-    driverhistory.find({},callback);
+
+//Create
+module.exports.addDriverhistory = function (newCar, callback) {
+    newCar.save(callback);
 }
 
-module.exports.getdriverhistoryById = function (id, callback) {
-    driverhistory.find({id: id}, callback);
+//Read
+module.exports.getdriverhistory = function (callback) {
+    DriverHistory.find({},callback);
+}
+
+module.exports.getDriverhistoryById = function (id, callback) {
+    DriverHistory.findById(id, callback);
+}
+
+module.exports.getdriverhistoryByCarId = function (id, callback) {
+    DriverHistory.find({car_id: id}, callback);
+}
+
+module.exports.getdriverhistoryByDriverId = function (id, callback) {
+    DriverHistory.find({driver_id: id}, callback);
 }
 
 //Delete
 module.exports.deletedriverhistory = function(id, callback){
-    driverhistory.findByidAndRemove(rollNo,callback);
+    DriverHistory.findByidAndRemove(rollNo,callback);
 }

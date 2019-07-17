@@ -35,6 +35,9 @@ const carStatusSchema = mongoose.Schema({
   },
   is_danger:{
     type: Boolean
+  },
+  driver_id:{
+    type: String
   }
 });
 
@@ -44,7 +47,9 @@ const carSchema = mongoose.Schema({
     },
     car_no: {
         type: String,
-        require: true
+        unique : true,
+        required : true,
+        dropDups: true
     },
     speed: {
         type: String,
@@ -57,10 +62,14 @@ const carSchema = mongoose.Schema({
     car_status: {
       type: carStatusSchema
     },
-
     drivers: [{
         type: driverIdSchema
-    }]
+    }],
+    danger_email:{
+        type:String,
+        required : true,
+        default: "akshat.mukesh@gmail.com"
+    }
 });
 
 
@@ -79,6 +88,9 @@ module.exports.getCar = function (callback) {
 
 module.exports.getCarById = function (id, callback) {
     Car.findById(id, callback);
+}
+module.exports.getCarByCarNo = function (car_no, callback) {
+    Car.find({car_no: car_no}, callback);
 }
 
 //Delete

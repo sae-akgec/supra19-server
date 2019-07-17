@@ -7,9 +7,9 @@ const auth = require('./auth');
 const history  =  require ('./driver_history');
 
 
-router.use('/user', user);
-router.use("/role", role);
-router.use("/car", car);
+router.use('/users', user);
+router.use("/roles", role);
+router.use("/cars", car);
 router.use("/auth", auth);
 router.use("/history", history);
 
