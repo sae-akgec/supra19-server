@@ -46,7 +46,7 @@ module.exports.addDriverhistory = function (newCar, callback) {
 }
 
 //Read
-module.exports.getdriverhistory = function (callback) {
+module.exports.getDriverhistory = function (callback) {
     DriverHistory.find({},callback);
 }
 

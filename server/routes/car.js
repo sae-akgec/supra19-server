@@ -51,7 +51,8 @@ router.post('/', (req, res, next)=>{
         speed:req.body.speed,
         speed_limit:req.body.speed_limit,
         car_status:req.body.car_status,
-        drivers:req.body.driverId,
+        drivers:req.body.drivers,
+        danger_email: req.body.danger_email
        });
      Car.addCar(newCar, (err, saveCar)=>{
         if (err) {

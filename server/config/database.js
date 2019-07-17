@@ -1,6 +1,6 @@
 module.exports = {
-    database : process.env.mongodb|| "mongodb://localhost:27017/supra",
+    database : "mongodb+srv://JAIN:rishabh74143395@cluster0-wazyz.gcp.mongodb.net/test?retryWrites=true",
     secret : 't2blive'
     };
 
-// mongodb+srv://JAIN:rishabh74143395@cluster0-wazyz.gcp.mongodb.net/test?retryWrites=true
+//
