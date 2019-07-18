@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Car = require('../models/car');
+const User = require('../models/user');
 
 router.get('/', (req, res, next)=>{
     Car.getCar((err, car)=>{
@@ -40,6 +41,43 @@ router.get('/number/:id', (req, res, next)=>{
             res.status = 404
             res.json({"error":"Car with carNo dosen't exist"});
           }
+        }
+    })
+});
+
+router.post('/share', (req, res, next)=>{
+    let carId = req.body.car_id;
+    let email = req.body.email;
+
+    User.getUserByEmail(email, (err, users)=>{
+        let user = users[0]
+        if(user){
+          Car.getCarById(carId, (err, car)=>{
+              if (err) {
+                  res.status(400);
+                  res.json({"error":"Unable to add car"});
+                  console.log(err)
+              } else {
+                  let car_driver = {
+                      "driver_id": user._id,
+                      "is_admin": true
+                  }
+
+                  car.drivers.push(car_driver)
+                  Car.addCar(car, (err, upatedCar) =>{
+                      if(err){
+                          res.status(400);
+                          res.json({"error":"Unable to upadte car"});
+                      } else{
+                          res.json(upatedCar);
+                      }
+                  })
+              }
+          });
+
+        }else{
+            res.status(404);
+            res.json({success: false, msg: `User Dosen't Exist with email ${email}`})
         }
     })
 });
