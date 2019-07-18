@@ -86,6 +86,11 @@ module.exports.getCar = function (callback) {
     Car.find({}, callback);
 }
 
+//Read
+module.exports.getCarByDriverId = function (id, callback) {
+    Car.find({'drivers':{$elemMatch:{'driver_id':id}}}, callback);
+}
+
 module.exports.getCarById = function (id, callback) {
     Car.findById(id, callback);
 }
