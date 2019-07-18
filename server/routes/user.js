@@ -64,4 +64,52 @@ router.get('/history', passport.authenticate('jwt', { session: false }), (req, r
         }
     })
 });
+
+// Update car status
+router.get('/on/:id',passport.authenticate('jwt', { session: false }), (req, res, next)=>{
+    let id = req.params.id
+    let user_id = req.user['_id'];
+    Car.getCarById(id,(err, car)=>{
+        if (err) {
+            res.json({"error":`No car exist id: ${id}`});
+        } else {
+            car.car_status.driver_id = user_id;
+            car.car_status.status = true;
+            car.car_status.is_danger = false;
+
+            Car.addCar(car, (err, upatedCar) =>{
+                if(err){
+                    console.log(err);
+                    res.json({"error":"Can't Update car"});
+                } else{
+                    res.json(upatedCar);
+                }
+            });
+        }
+    })
+});
+
+// Update car status
+router.get('/off/:id',passport.authenticate('jwt', { session: false }), (req, res, next)=>{
+    let id = req.params.id
+    let user_id = req.user['_id'];
+    Car.getCarById(id,(err, car)=>{
+        if (err) {
+            res.json({"error":`No car exist id: ${id}`});
+        } else {
+            car.car_status.driver_id = user_id;
+            car.car_status.status = false;
+            car.car_status.is_danger = false;
+
+            Car.addCar(car, (err, upatedCar) =>{
+                if(err){
+                    console.log(err);
+                    res.json({"error":"Can't Update car"});
+                } else{
+                    res.json(upatedCar);
+                }
+            });
+        }
+    })
+});
 module.exports = router;
