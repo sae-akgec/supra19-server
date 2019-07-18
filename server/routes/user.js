@@ -48,20 +48,13 @@ router.get('/cars', passport.authenticate('jwt', { session: false }), (req, res,
 
 router.get('/history', passport.authenticate('jwt', { session: false }), (req, res, next)=>{
     let id = req.user['_id'];
-    User.getUserById(id, (err, user)=>{
-        if (err) {
-            res.json({"error":`User with ${id} not found`});
-            req.status(400);
-        } else {
-            History.getdriverhistoryByDriverId("1111111", (err, historys)=>{
-              if(err){
-                res.json({"error":`History with ${id} not found`});
-                req.status(400);
-              } else{
-                res.json(historys);
-              }
-            })
-        }
+    History.getdriverhistoryByDriverId(id, (err, historys)=>{
+      if(err){
+        res.json({"error":`History with ${id} not found`});
+        req.status(400);
+      } else{
+        res.json(historys);
+      }
     })
 });
 
