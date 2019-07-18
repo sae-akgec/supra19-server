@@ -72,11 +72,11 @@ router.post('/:id/driver', (req, res, next)=>{
             console.log(err)
         } else {
             let car_driver = {
-                "driverId": req.body.driver_id,
-                "isAdmin": req.body.is_admin
+                "driver_id": req.body.driver_id,
+                "is_admin": req.body.is_admin
             }
 
-            car.driverId.push(car_driver)
+            car.drivers.push(car_driver)
             Car.addCar(car, (err, upatedCar) =>{
                 if(err){
                     res.json({"error":"error"});
